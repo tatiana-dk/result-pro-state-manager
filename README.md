@@ -1,1 +1,1 @@
-# Собственный state-maneger
+# Собственный state-manager
