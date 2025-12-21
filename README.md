@@ -1,0 +1,1 @@
+# Собственный state-maneger
