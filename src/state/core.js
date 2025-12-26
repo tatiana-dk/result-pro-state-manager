@@ -14,10 +14,46 @@ function createStore() {
    * @returns {Atom} объект атома
    */
   function createAtom(key, initialValue) {
-    // TODO: 1. Проверить, не существует ли уже атом с таким ключом
-    // TODO: 2. Создать атом: значение, список подписчиков
-    // TODO: 3. Сохранить атом в хранилище (atoms)
-    // TODO: 4. Вернуть объект с методами get, set, subscribe
+    // 1. Проверить, не существует ли уже атом с таким ключом
+    if (atoms.has(key)) {
+        throw new Error(`Атом с ключом "${key}" уже существует`);
+    }
+
+    // 2. Создать атом: значение, список подписчиков
+    let value = initialValue;
+    const listeners = [];
+
+    // 3. Сохранить атом в хранилище (atoms)
+    // Метод получения текущего значения
+    const get = () => value;
+
+    // Метод установки нового значения
+    const set = (newValue) => {
+      if (value !== newValue) {
+        value = newValue;
+        // Уведомляем всех подписчиков
+        listeners.forEach(listener => listener(value));
+      }
+    };
+
+    // Подписка на изменения
+    const subscribe = (listener) => {
+      listeners.push(listener);
+      // Возвращаем функцию для отписки
+      return () => {
+        const index = listeners.indexOf(listener);
+        if (index > -1) listeners.splice(index, 1);
+      };
+    };
+
+    // 4. Вернуть объект с методами get, set, subscribe
+    // Создаём объект атома
+    const atom = { get, set, subscribe };
+
+    // Сохраняем в хранилище
+    atoms.set(key, atom);
+
+    return atom;
   }
 
   /**
