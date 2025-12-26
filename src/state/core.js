@@ -19,9 +19,8 @@ function createStore() {
         throw new Error(`Атом с ключом "${key}" уже существует`);
     }
 
-    // 2. Создать атом: значение, список подписчиков
+    // 2. Создать атом: значение
     let value = initialValue;
-    const listeners = [];
 
     // 3. Сохранить атом в хранилище (atoms)
     // Метод получения текущего значения
@@ -31,24 +30,12 @@ function createStore() {
     const set = (newValue) => {
       if (value !== newValue) {
         value = newValue;
-        // Уведомляем всех подписчиков
-        listeners.forEach(listener => listener(value));
       }
-    };
-
-    // Подписка на изменения
-    const subscribe = (listener) => {
-      listeners.push(listener);
-      // Возвращаем функцию для отписки
-      return () => {
-        const index = listeners.indexOf(listener);
-        if (index > -1) listeners.splice(index, 1);
-      };
     };
 
     // 4. Вернуть объект с методами get, set, subscribe
     // Создаём объект атома
-    const atom = { get, set, subscribe };
+    const atom = { get, set };
 
     // Сохраняем в хранилище
     atoms.set(key, atom);
