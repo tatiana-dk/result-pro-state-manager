@@ -47,7 +47,7 @@ function createStore() {
 
         // Подписка на изменения
         const subscribe = (listener) => {
-        listeners.push(listener);
+            listeners.push(listener);
             // Возвращаем функцию для отписки
             return () => {
                 const index = listeners.indexOf(listener);
@@ -70,9 +70,14 @@ function createStore() {
             return true; // или выбросить ошибку
         };
 
-        // 5. Вернуть объект с методами get, set, subscribe
+        // 5. Очистка слушателей при удалении атома
+        const _dispose = () => {
+            listeners.length = 0; // Очищаем массив listeners
+        };
+
+        // 6. Вернуть объект с методами get, set, subscribe, _dispose
         // Создаём объект атома
-        const atom = { get, set, subscribe };
+        const atom = { get, set, subscribe, _dispose };
 
         // Сохраняем в хранилище
         atoms.set(key, atom);
@@ -145,11 +150,7 @@ function createStore() {
         if (!atom) return false;
         
         // 2. Отписать всех слушателей атома
-        // Для этого нам нужно получить доступ к listeners атома
-        // Но в текущей реализации listeners закрыты внутри атома
-        
-        // Вариант 1: Добавить метод для очистки listeners в атом
-        // Вариант 2: Оставить как есть - сборщик мусора удалит listeners
+        if (atom._dispose) atom._dispose();
         
         // 3. Удалить атом из коллекции atoms
         atoms.delete(key);
