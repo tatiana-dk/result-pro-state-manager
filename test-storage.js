@@ -41,3 +41,9 @@ const totalAtom = store.createComputedAtom(
 console.log(totalAtom.get()); // 200
 quantityAtom.set(3);
 console.log(totalAtom.get()); // 300
+
+console.log('Получение атома');
+
+const atom = store.createAtom('test', 1);
+console.log(store.getAtom('test') === atom); // true
+console.log(store.getAtom('tost')); // undefined
