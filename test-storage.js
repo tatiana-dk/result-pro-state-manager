@@ -26,3 +26,18 @@ unsubscribeCounter();
 
 counterAtom.set(15); // Нет подписчика
 console.log(counterAtom.get()); // 15
+
+console.log('Проверка вычисляемого значения');
+
+const priceAtom = store.createAtom('price', 100);
+const quantityAtom = store.createAtom('quantity', 2);
+
+const totalAtom = store.createComputedAtom(
+  'total',
+  [priceAtom, quantityAtom],
+  (price, quantity) => price * quantity
+);
+
+console.log(totalAtom.get()); // 200
+quantityAtom.set(3);
+console.log(totalAtom.get()); // 300

@@ -80,6 +80,42 @@ function createStore() {
     return atom;
   }
 
+    /**
+     * Создаёт вычисляемый атом
+     * @param {string} key - уникальное имя атома
+     * @param {Array<Atom>} dependencies - массив атомов, от которых зависит вычисляемое значение
+     * @param {function} computeFunction - функция, которая возвращает новое значение
+     * @returns {computedAtom} объект с методами атома + возможность очистки
+     */
+    function createComputedAtom(key, dependencies, computeFunction) {
+        // 1. dependencies - массив атомов, от которых зависит вычисление
+        // 2. computeFunction - функция, которая возвращает новое значение
+        
+        // Получаем текущие значения зависимостей
+        const getDepsValues = () => dependencies.map(dep => dep.get());
+        
+        // Создаём обычный атом с вычисленным начальным значением
+        const computedAtom = createAtom(key, computeFunction(...getDepsValues()));
+        
+        // Подписываемся на изменения всех зависимостей
+        const unsubscribeFunctions = dependencies.map(dep =>
+            dep.subscribe(() => {
+                // При изменении любой зависимости пересчитываем значение
+                const newValue = computeFunction(...getDepsValues());
+                computedAtom.set(newValue);
+            })
+        );
+        
+        // Возвращаем объект с методами атома + возможность очистки
+        return {
+            ...computedAtom,
+            dispose: () => {
+                unsubscribeFunctions.forEach(unsub => unsub());
+                removeAtom(key);
+            }
+        };
+    }
+
   /**
    * Возвращает атом по ключу
    * @param {string} key - имя атома
@@ -111,6 +147,7 @@ function createStore() {
     createAtom,
     getAtom,
     removeAtom,
+    createComputedAtom
   };
 }
 
