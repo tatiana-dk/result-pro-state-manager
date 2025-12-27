@@ -29,11 +29,20 @@ function createStore() {
 
     // Метод установки нового значения
     const set = (newValue) => {
-      if (value !== newValue) {
-        value = newValue;
-        // Уведомляем всех подписчиков
-        listeners.forEach(listener => listener(value));
-      }
+        // Валидация
+        validate(newValue); // выбросит ошибку
+
+        if (value !== newValue) {
+            value = newValue;
+            // Уведомляем всех подписчиков
+            listeners.forEach(listener => {
+                try {
+                    listener(value);
+                } catch (err) {
+                    console.error(`Ошибка в подписчике атома "${key}":`, err);
+                }
+            });
+        }
     };
 
     // Подписка на изменения
@@ -46,7 +55,22 @@ function createStore() {
       };
     };
 
-    // 4. Вернуть объект с методами get, set, subscribe
+    // 4. Валидация данных
+    const validate = (newValue) => {
+        // Запрещаем undefined как значение
+        if (newValue === undefined) {
+            throw new Error(`Атом "${key}": значение не может быть undefined`);
+        }
+
+        // Простая проверка типа
+        if (typeof newValue !== typeof initialValue) {
+            throw new Error(`Атом "${key}": ожидается ${typeof initialValue}, получен ${typeof newValue}`);
+        }
+
+        return true; // или выбросить ошибку
+    };
+
+    // 5. Вернуть объект с методами get, set, subscribe
     // Создаём объект атома
     const atom = { get, set, subscribe };
 

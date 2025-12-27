@@ -19,6 +19,9 @@ const unsubscribeCounter = counterAtom.subscribe(value => {
 counterAtom.set(5); // Не вызовет подписчика
 counterAtom.set(10); // Вызовет подписчика
 
+// counterAtom.set('10'); // Ошибка несоответствие типов
+// counterAtom.set(undefined); // Ошибка нельзя передать undefined
+
 unsubscribeCounter();
 
 counterAtom.set(15); // Нет подписчика
