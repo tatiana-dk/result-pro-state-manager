@@ -44,6 +44,12 @@ console.log(totalAtom.get()); // 300
 
 console.log('Получение атома');
 
-const atom = store.createAtom('test', 1);
-console.log(store.getAtom('test') === atom); // true
+const testAtom = store.createAtom('test', 1);
+console.log(store.getAtom('test') === testAtom); // true
 console.log(store.getAtom('tost')); // undefined
+
+console.log('Удаление атома');
+
+console.log(store.removeAtom('test')); // true
+store.getAtom('test'); // ошибка
+console.log(store.removeAtom('tost')); // false - не существует
