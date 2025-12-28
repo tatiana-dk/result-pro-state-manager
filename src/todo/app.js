@@ -41,9 +41,7 @@ function toggleTask(id) {
 
 // 4. Подписка на изменения и обновление DOM
 function renderAllTasks() {
-  const active = activeTasks.get();
-  const completed = completedTasks.get();
-
+  const {active, completed} = getTasks();
   const {activeContainer, completedContainer} = getTaskContainers();
   
   activeContainer.innerHTML = active.map(task => renderTodoItem(task)).join('');
@@ -74,14 +72,33 @@ function renderTodoItem(todoItem) {
   `;
 }
 
+function renderAllCounts() {
+    const {active, completed} = getTasks();
+
+    const activeCount = document.getElementById('activeCount');
+    const completedCount = document.getElementById('completedCount');
+
+    activeCount.innerHTML = active.length;
+    completedCount.innerHTML = completed.length;
+}
+
 // Подписываемся
 tasksAtom.subscribe(renderAllTasks);
+tasksAtom.subscribe(renderAllCounts);
 
 // Функция возвращает объект с ссылками на оба контейнера
 function getTaskContainers() {
     return {
         activeContainer: document.getElementById('activeContainer'),
         completedContainer: document.getElementById('completedContainer')
+    };
+}
+
+// Функция возвращает объект с ссылками на оба списка
+function getTasks() {
+    return {
+        active: activeTasks.get(),
+        completed: completedTasks.get()
     };
 }
 
@@ -105,6 +122,7 @@ function handleClickContainer(event) {
 document.addEventListener('DOMContentLoaded', () => {
   // Первый рендер
   renderAllTasks();
+  renderAllCounts();
   
   // Обработчик добавления
   document.getElementById('addButton').addEventListener('click', () => {
