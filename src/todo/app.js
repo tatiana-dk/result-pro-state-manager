@@ -82,9 +82,24 @@ function renderAllCounts() {
     completedCount.innerHTML = completed.length;
 }
 
+function toggleListsVisibility() {
+    const { active, completed } = getTasks();
+    
+    document.getElementById('activeList').classList.toggle(
+        'todo-list__todo--hide', 
+        active.length === 0
+    );
+    
+    document.getElementById('completedList').classList.toggle(
+        'todo-list__done--hide', 
+        completed.length === 0
+    );
+}
+
 // Подписываемся
 tasksAtom.subscribe(renderAllTasks);
 tasksAtom.subscribe(renderAllCounts);
+tasksAtom.subscribe(toggleListsVisibility);
 
 // Функция возвращает объект с ссылками на оба контейнера
 function getTaskContainers() {
@@ -123,6 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Первый рендер
   renderAllTasks();
   renderAllCounts();
+  toggleListsVisibility();
   
   // Обработчик добавления
   document.getElementById('addButton').addEventListener('click', () => {

@@ -156,3 +156,8 @@ body {
 .todo-list__done .todo-item {
     background-color: #F2EEBD;
 }
+
+.todo-list__todo--hide,
+.todo-list__done--hide {
+    visibility: hidden;
+}
