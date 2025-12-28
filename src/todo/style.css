@@ -67,29 +67,18 @@ body {
 .todo-list {
     background-color: #84B59C;
     padding: 32px;
-    display: grid;
-    grid-template-rows: 1fr 1fr;
-    gap: 24px;
 }
-.todo-list__wrapper {
-    width: 80%;
+.todo-list__container {
     display: grid;
     gap: 16px;
-    align-self: right;
-    background-color: #ffffff22;
-    padding: 16px;
-    border-radius: 16px;
-}
-.todo-list__title {
-    color: #fff;
-    font-size: 12px;
+    width: 80%;
 }
 .todo-item {
     background-color: #F3BEC2;
     border-radius: 16px;
     padding: 16px;
     display: grid;
-    grid-template-columns: 1fr 24px;
+    grid-template-columns: 24px 1fr 24px;
     gap: 10px;
     cursor: pointer;
 }
@@ -97,13 +86,35 @@ body {
     width: 24px;
     height: 24px;
     border-radius: 6px;
-    background-color: #fff;
-    opacity: .5;
-    -webkit-transition: opacity .3s ease;
-    transition: opacity .3s ease;
+    background-color: #ffffff66;
+    -webkit-transition: background-color .3s ease;
+    transition: background-color .3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.todo-item__checkbox svg {
+    pointer-events: none;
+    display: none;
+}
+.todo-item__checkbox.todo-item__checkbox--checked svg {
+    display: block;
 }
 .todo-item:hover .todo-item__checkbox {
-    opacity: .7;
+    background-color: #ffffff77;
+}
+.todo-item.done {
+    background-color: #F2EEBD;
+}
+
+.todo-item__delete {
+    width: 24px;
+    height: 24px;
+    justify-content: center;
+    align-items: center;
+}
+.todo-item__delete svg {
+    pointer-events: none;
 }
 
 .todo-list__todo {
@@ -111,10 +122,23 @@ body {
     justify-content: flex-end;
     align-items: flex-start;
     overflow-y: auto;
+    height: calc(100vh - 32px * 2);
 }
-.todo-list__done {
-    overflow-y: auto;
+
+.todo-list__todo {
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: #93C9AD #84B59C; /* Firefox */
 }
-.todo-list__done .todo-item {
-    background-color: #F2EEBD;
+
+/* Chrome, Safari, Edge */
+.todo-list__todo::-webkit-scrollbar {
+  width: 10px;
+}
+
+.todo-list__todo::-webkit-scrollbar-track {
+  background: #84B59C;
+}
+
+.todo-list__todo::-webkit-scrollbar-thumb {
+  background: #93C9AD;
 }
