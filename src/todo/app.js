@@ -44,15 +44,15 @@ function renderAllTasks() {
   const {active, completed} = getTasks();
   const {activeContainer, completedContainer} = getTaskContainers();
   
-  activeContainer.innerHTML = active.map(task => renderTodoItem(task)).join('');
-  completedContainer.innerHTML = completed.map(task => renderTodoItem(task)).join('');
+  activeContainer.innerHTML = active.map(task => renderTask(task)).join('');
+  completedContainer.innerHTML = completed.map(task => renderTask(task)).join('');
 }
 
-function renderTodoItem(todoItem) {
+function renderTask(task) {
     return `
-    <div class="todo-item ${todoItem.completed ? 'completed' : ''}" data-id="${todoItem.id}">
+    <div class="task ${task.completed ? 'completed' : ''}" data-id="${task.id}">
 
-        <div class="todo-item__checkbox${todoItem.completed ? ' todo-item__checkbox--checked' : ''}"
+        <div class="task__checkbox${task.completed ? ' task__checkbox--checked' : ''}"
             title="Сделано"
         >
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="10" viewBox="0 0 14 10" fill="none">
@@ -60,9 +60,9 @@ function renderTodoItem(todoItem) {
             </svg>
         </div>
 
-        <div class="todo-item__text">${todoItem.text}</div>
+        <div class="task__text">${task.text}</div>
 
-        <div class="todo-item__delete" title="Удалить">
+        <div class="task__delete" title="Удалить">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
                 <path d="M2 2L8 8M8 8L14 14M8 8L2 14M8 8L14 2" stroke="red" stroke-width="1.5" stroke-linecap="round"/>
             </svg>
@@ -117,15 +117,15 @@ function getTasks() {
 function handleClickContainer(event) {
     event.stopPropagation();
     const target = event.target;
-    const todoItem = target.closest('.todo-item')
+    const task = target.closest('.task')
 
-    if (!todoItem) return;
+    if (!task) return;
     
-    const id = Number(target.closest('.todo-item').getAttribute('data-id'));
+    const id = Number(target.closest('.task').getAttribute('data-id'));
     
-    if (target.closest('.todo-item__delete')) {
+    if (target.closest('.task__delete')) {
         deleteTask(id);
-    } else if (target.closest('.todo-item')) {
+    } else if (target.closest('.task')) {
         toggleTask(id);
     }
 }

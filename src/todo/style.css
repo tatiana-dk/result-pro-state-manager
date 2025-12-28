@@ -103,7 +103,7 @@ body {
     align-items: center;
     padding: 0 5px;
 }
-.todo-item {
+.task {
     background-color: #F3BEC2;
     border-radius: 16px;
     padding: 16px;
@@ -112,7 +112,7 @@ body {
     gap: 10px;
     cursor: pointer;
 }
-.todo-item__checkbox {
+.task__checkbox {
     width: 24px;
     height: 24px;
     border-radius: 6px;
@@ -123,24 +123,24 @@ body {
     justify-content: center;
     align-items: center;
 }
-.todo-item__checkbox svg {
+.task__checkbox svg {
     pointer-events: none;
     display: none;
 }
-.todo-item__checkbox.todo-item__checkbox--checked svg {
+.task__checkbox.task__checkbox--checked svg {
     display: block;
 }
-.todo-item:hover .todo-item__checkbox {
+.task:hover .task__checkbox {
     background-color: #ffffff77;
 }
 
-.todo-item__delete {
+.task__delete {
     width: 24px;
     height: 24px;
     justify-content: center;
     align-items: center;
 }
-.todo-item__delete svg {
+.task__delete svg {
     pointer-events: none;
 }
 
@@ -153,7 +153,7 @@ body {
 .todo-list__completed {
     overflow-y: auto;
 }
-.todo-list__completed .todo-item {
+.todo-list__completed .task {
     background-color: #F2EEBD;
 }
 
