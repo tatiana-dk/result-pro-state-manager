@@ -144,7 +144,7 @@ body {
     pointer-events: none;
 }
 
-.todo-list__todo {
+.todo-list__active {
     display: flex;
     justify-content: flex-end;
     align-items: flex-start;
@@ -157,7 +157,7 @@ body {
     background-color: #F2EEBD;
 }
 
-.todo-list__todo--hide,
+.todo-list__active--hide,
 .todo-list__done--hide {
     visibility: hidden;
 }

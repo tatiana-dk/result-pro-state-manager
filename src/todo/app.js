@@ -74,7 +74,7 @@ function renderTodoItem(todoItem) {
 
 function renderAllCounts() {
     const {active, completed} = getTasks();
-    
+
     document.getElementById('activeCount').innerHTML = active.length;
     document.getElementById('completedCount').innerHTML = completed.length;
 }
@@ -83,7 +83,7 @@ function toggleListsVisibility() {
     const { active, completed } = getTasks();
     
     document.getElementById('activeList').classList.toggle(
-        'todo-list__todo--hide', 
+        'todo-list__active--hide',
         active.length === 0
     );
     
