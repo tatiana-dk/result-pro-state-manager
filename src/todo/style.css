@@ -150,14 +150,14 @@ body {
     align-items: flex-start;
     overflow-y: auto;
 }
-.todo-list__done {
+.todo-list__completed {
     overflow-y: auto;
 }
-.todo-list__done .todo-item {
+.todo-list__completed .todo-item {
     background-color: #F2EEBD;
 }
 
 .todo-list__active--hide,
-.todo-list__done--hide {
+.todo-list__completed--hide {
     visibility: hidden;
 }

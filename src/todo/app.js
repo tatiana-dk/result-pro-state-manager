@@ -4,26 +4,26 @@ const store = createStore();
 
 // 2. Создаём атом с массивом задач
 const tasksAtom = store.createAtom('tasks', [
-  { id: 1, text: 'Изучить стейт-менеджер', done: true },
-  { id: 2, text: 'Написать ToDo-приложение', done: false }
+  { id: 1, text: 'Изучить стейт-менеджер', completed: true },
+  { id: 2, text: 'Написать ToDo-приложение', completed: false }
 ]);
 
 const activeTasks = store.createComputedAtom(
     'active',
     [tasksAtom],
-    (tasks) => tasks.filter(task => !task.done)
+    (tasks) => tasks.filter(task => !task.completed)
 );
 
 const completedTasks = store.createComputedAtom(
     'completed',
     [tasksAtom],
-    (tasks) => tasks.filter(task => task.done)
+    (tasks) => tasks.filter(task => task.completed)
 );
 
 // 3. Функции для изменения состояния
 function addTask(text) {
   const tasks = tasksAtom.get();
-  const newTask = { id: Date.now(), text, done: false };
+  const newTask = { id: Date.now(), text, completed: false };
   tasksAtom.set([newTask, ...tasks]);
 }
 
@@ -35,7 +35,7 @@ function deleteTask(id) {
 function toggleTask(id) {
   const tasks = tasksAtom.get();
   tasksAtom.set(tasks.map(task =>
-    task.id === id ? { ...task, done: !task.done } : task
+    task.id === id ? { ...task, completed: !task.completed } : task
   ));
 }
 
@@ -50,9 +50,9 @@ function renderAllTasks() {
 
 function renderTodoItem(todoItem) {
     return `
-    <div class="todo-item ${todoItem.done ? 'done' : ''}" data-id="${todoItem.id}">
+    <div class="todo-item ${todoItem.completed ? 'completed' : ''}" data-id="${todoItem.id}">
 
-        <div class="todo-item__checkbox${todoItem.done ? ' todo-item__checkbox--checked' : ''}"
+        <div class="todo-item__checkbox${todoItem.completed ? ' todo-item__checkbox--checked' : ''}"
             title="Сделано"
         >
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="10" viewBox="0 0 14 10" fill="none">
@@ -88,7 +88,7 @@ function toggleListsVisibility() {
     );
     
     document.getElementById('completedList').classList.toggle(
-        'todo-list__done--hide', 
+        'todo-list__completed--hide', 
         completed.length === 0
     );
 }
