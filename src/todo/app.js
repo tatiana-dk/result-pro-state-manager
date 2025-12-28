@@ -74,12 +74,9 @@ function renderTodoItem(todoItem) {
 
 function renderAllCounts() {
     const {active, completed} = getTasks();
-
-    const activeCount = document.getElementById('activeCount');
-    const completedCount = document.getElementById('completedCount');
-
-    activeCount.innerHTML = active.length;
-    completedCount.innerHTML = completed.length;
+    
+    document.getElementById('activeCount').innerHTML = active.length;
+    document.getElementById('completedCount').innerHTML = completed.length;
 }
 
 function toggleListsVisibility() {
