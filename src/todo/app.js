@@ -109,9 +109,11 @@ document.addEventListener('DOMContentLoaded', () => {
   // Обработчик добавления
   document.getElementById('addButton').addEventListener('click', () => {
     const input = document.getElementById('taskInput');
-    if (input.value.trim()) {
-      addTask(input.value.trim());
-      input.value = '';
+    const text = input.value.trim();
+    if (text) {
+        addTask(text);
+        input.value = '';
+        input.focus();
     }
   });
 
