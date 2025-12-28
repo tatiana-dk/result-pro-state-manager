@@ -115,6 +115,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  // Обработка Enter в поле ввода
+    document.getElementById('taskInput').addEventListener('keypress', (event) => {
+        if (event.key === 'Enter') {
+            document.getElementById('addButton').click();
+        }
+    });
+
   // Обработчики событий task
   const {activeContainer, completedContainer} = getTaskContainers();
 
