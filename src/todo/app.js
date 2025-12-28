@@ -3,7 +3,22 @@ import { createStore } from '../state/core.js';
 const store = createStore();
 
 // 2. Создаём атом с массивом задач
-const tasksAtom = store.createAtom('tasks', []);
+const tasksAtom = store.createAtom('tasks', [
+  { id: 1, text: 'Изучить стейт-менеджер', done: true },
+  { id: 2, text: 'Написать ToDo-приложение', done: false }
+]);
+
+const activeTasks = store.createComputedAtom(
+    'active',
+    [tasksAtom],
+    (tasks) => tasks.filter(task => !task.done)
+);
+
+const completedTasks = store.createComputedAtom(
+    'completed',
+    [tasksAtom],
+    (tasks) => tasks.filter(task => task.done)
+);
 
 // 3. Функции для изменения состояния
 function addTask(text) {
@@ -25,14 +40,21 @@ function toggleTask(id) {
 }
 
 // 4. Подписка на изменения и обновление DOM
-function renderTasks() {
-  const tasks = tasksAtom.get();
-  const container = document.getElementById('todoContainer');
-  
-  container.innerHTML = tasks.map(task => `
-    <div class="todo-item ${task.done ? 'done' : ''}" data-id="${task.id}">
+function renderAllTasks() {
+  const active = activeTasks.get();
+  const completed = completedTasks.get();
 
-        <div class="todo-item__checkbox${task.done ? ' todo-item__checkbox--checked' : ''}"
+  const {activeContainer, completedContainer} = getTaskContainers();
+  
+  activeContainer.innerHTML = active.map(task => renderTodoItem(task)).join('');
+  completedContainer.innerHTML = completed.map(task => renderTodoItem(task)).join('');
+}
+
+function renderTodoItem(todoItem) {
+    return `
+    <div class="todo-item ${todoItem.done ? 'done' : ''}" data-id="${todoItem.id}">
+
+        <div class="todo-item__checkbox${todoItem.done ? ' todo-item__checkbox--checked' : ''}"
             title="Сделано"
         >
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="10" viewBox="0 0 14 10" fill="none">
@@ -40,7 +62,7 @@ function renderTasks() {
             </svg>
         </div>
 
-        <div class="todo-item__text">${task.text}</div>
+        <div class="todo-item__text">${todoItem.text}</div>
 
         <div class="todo-item__delete" title="Удалить">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
@@ -49,16 +71,40 @@ function renderTasks() {
         </div>
 
     </div>
-  `).join('');
+  `;
 }
 
 // Подписываемся
-tasksAtom.subscribe(renderTasks);
+tasksAtom.subscribe(renderAllTasks);
+
+// Функция возвращает объект с ссылками на оба контейнера
+function getTaskContainers() {
+    return {
+        activeContainer: document.getElementById('activeContainer'),
+        completedContainer: document.getElementById('completedContainer')
+    };
+}
+
+function handleClickContainer(event) {
+    event.stopPropagation();
+    const target = event.target;
+    const todoItem = target.closest('.todo-item')
+
+    if (!todoItem) return;
+    
+    const id = Number(target.closest('.todo-item').getAttribute('data-id'));
+    
+    if (target.closest('.todo-item__delete')) {
+        deleteTask(id);
+    } else if (target.closest('.todo-item')) {
+        toggleTask(id);
+    }
+}
 
 // 5. Инициализация
 document.addEventListener('DOMContentLoaded', () => {
   // Первый рендер
-  renderTasks();
+  renderAllTasks();
   
   // Обработчик добавления
   document.getElementById('addButton').addEventListener('click', () => {
@@ -70,20 +116,8 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Обработчики событий task
-  const container = document.getElementById('todoContainer');
-  container.addEventListener('click', (event) => {
-    event.stopPropagation();
-    const target = event.target;
-    const todoItem = target.closest('.todo-item')
+  const {activeContainer, completedContainer} = getTaskContainers();
 
-    if (!todoItem) return;
-
-    const id = Number(todoItem.getAttribute('data-id'));
-    
-    if (target.closest('.todo-item__delete')) {
-        deleteTask(id);
-    } else if (target.closest('.todo-item')) {
-        toggleTask(id);
-    }
-  });
+  activeContainer.addEventListener('click', handleClickContainer);
+  completedContainer.addEventListener('click', handleClickContainer);
 });
