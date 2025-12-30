@@ -147,9 +147,15 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    opacity: 0;
+    -webkit-transition: opacity .3s ease;
+    transition: opacity .3s ease;
 }
 .task__delete svg {
     pointer-events: none;
+}
+.task:hover .task__delete {
+    opacity: 1;
 }
 
 .todo-list__active {
