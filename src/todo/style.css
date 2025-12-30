@@ -134,7 +134,13 @@ body {
 .task:hover .task__checkbox {
     background-color: #ffffff77;
 }
-
+.task__text {
+    line-height: 24px;
+    min-height: 24px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
 .task__delete {
     width: 24px;
     height: 24px;
