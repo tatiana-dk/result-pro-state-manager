@@ -162,3 +162,25 @@ body {
 .todo-list__completed--hide {
     visibility: hidden;
 }
+
+.todo-list__active,
+.todo-list__completed {
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: #93C9AD #84B59C; /* Firefox */
+}
+
+/* Chrome, Safari, Edge */
+.todo-list__active::-webkit-scrollbar,
+.todo-list__completed::-webkit-scrollbar {
+  width: 10px;
+}
+
+.todo-list__active::-webkit-scrollbar-track,
+.todo-list__completed::-webkit-scrollbar-track {
+  background: #84B59C;
+}
+
+.todo-list__active::-webkit-scrollbar-thumb,
+.todo-list__completed::-webkit-scrollbar-thumb {
+  background: #93C9AD;
+}
