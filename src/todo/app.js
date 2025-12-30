@@ -2,11 +2,28 @@
 import { createStore } from '../state/core.js';
 const store = createStore();
 
-// 2. Создаём атом с массивом задач
-const tasksAtom = store.createAtom('tasks', [
-  { id: 1, text: 'Изучить стейт-менеджер', completed: true },
-  { id: 2, text: 'Написать ToDo-приложение', completed: false }
-]);
+// Функция загрузки задач из LocalStorage
+function loadTasksFromStorage() {
+    try {
+        const saved = localStorage.getItem('todo-tasks');
+        return saved ? JSON.parse(saved) : [];
+    } catch (error) {
+        console.error('Ошибка загрузки из LocalStorage:', error);
+        return [];
+    }
+}
+
+// Функция сохранения задач в LocalStorage
+function saveTasksToStorage(tasks) {
+    try {
+        localStorage.setItem('todo-tasks', JSON.stringify(tasks));
+    } catch (error) {
+        console.error('Ошибка сохранения в LocalStorage:', error);
+    }
+}
+
+// Создаём атом с начальным значением из LocalStorage
+const tasksAtom = store.createAtom('tasks', loadTasksFromStorage());
 
 const activeTasks = store.createComputedAtom(
     'active',
@@ -97,6 +114,11 @@ function toggleListsVisibility() {
 tasksAtom.subscribe(renderAllTasks);
 tasksAtom.subscribe(renderAllCounts);
 tasksAtom.subscribe(toggleListsVisibility);
+
+// Подписываемся на изменения атома и сохраняем при каждом изменении
+tasksAtom.subscribe((tasks) => {
+    saveTasksToStorage(tasks);
+});
 
 // Функция возвращает объект с ссылками на оба контейнера
 function getTaskContainers() {
