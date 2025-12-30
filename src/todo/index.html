@@ -1,0 +1,51 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Хочу сделать</title>
+    <link rel="stylesheet" href="./style.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&family=Sansation:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap" rel="stylesheet">
+
+    <script defer src="./app.js" type="module"></script>
+  </head>
+  <body>
+    <div class="page-grid">
+        <div class="todo-form">
+            
+            <div class="todo-form-content">
+                <h1>Хочу сделать</h1>
+                <input id="taskInput" type="text" name="TODO" value="" />
+                <div class="todo-form-button">
+                    <button id="addButton">Добавить</button>
+                </div>
+            </div>
+            
+
+        </div>
+        <div class="todo-list">
+            <div id="activeList" class="todo-list__active">
+                <div class="todo-list__wrapper">
+                    <div class="todo-list__title">
+                        Блеснуть талантом:
+                        <div id="activeCount" class="todo-list__count">10000</div>
+                    </div>
+                    <div id="activeContainer" class="todo-list__container"></div>
+                </div>
+            </div>
+            <div id="completedList" class="todo-list__completed">
+                <div class="todo-list__wrapper">
+                    <div class="todo-list__title">
+                        Я молодец :)
+                        <div id="completedCount" class="todo-list__count">5</div>
+                    </div>
+                    <div id="completedContainer" class="todo-list__container"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </body>
+</html>
