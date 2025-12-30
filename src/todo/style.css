@@ -76,7 +76,6 @@ body {
     width: 80%;
     display: grid;
     gap: 16px;
-    align-self: right;
     background-color: #ffffff22;
     padding: 16px;
     border-radius: 16px;
@@ -196,4 +195,73 @@ body {
 .todo-list__active::-webkit-scrollbar-thumb,
 .todo-list__completed::-webkit-scrollbar-thumb {
   background: #93C9AD;
+}
+
+@media(max-width: 767px) {
+    .page-grid {
+        grid-template-columns: 1fr;
+    }
+    .todo-form {
+        padding: 16px;
+        height: 136px;
+    }
+    .todo-form-content {
+        grid-template-columns: 1fr 100px;
+        gap: 16px 8px;
+    }
+    .todo-form h1 {
+        font-size: 32px;
+        text-align: center;
+        grid-column: span 2;
+    }
+    .todo-form input {
+        width: 200px;
+        font-size: 16px;
+        height: 48px;
+    }
+    .todo-form-button {
+        width: 100px;
+    }
+    .todo-form-button button {
+        padding: 8px 16px;
+        font-size: 14px;
+    }
+
+    .todo-list {
+        padding: 16px;
+        height: calc(100vh - 136px);
+        grid-template-rows: 2fr 1fr;
+    }
+    .todo-list__wrapper {
+        padding: 8px;
+        gap: 8px;
+    }
+    .todo-list__count {
+        min-width: 16px;
+        height: 16px;
+        font-size: 12px;
+    }
+    .todo-list__container {
+        gap: 8px;
+    }
+
+    .todo-list__active,
+    .todo-list__completed {
+        margin-right: -6px;
+        padding-right: 6px;
+    }
+
+    .task {
+        padding: 8px;
+        border-radius: 10px;
+    }
+    .task__checkbox {
+        
+    }
+    .task__text {
+        line-height: 18px;
+    }
+    .task__delete {
+        opacity: 1;
+    }
 }
