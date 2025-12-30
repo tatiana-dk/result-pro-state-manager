@@ -41,7 +41,7 @@ const completedTasks = store.createComputedAtom(
 function addTask(text) {
   const tasks = tasksAtom.get();
   const newTask = { id: Date.now(), text, completed: false };
-  tasksAtom.set([newTask, ...tasks]);
+  tasksAtom.set([...tasks, newTask]);
 }
 
 function deleteTask(id) {
